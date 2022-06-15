@@ -5,6 +5,7 @@ class Timer {
         this.startBtn = startBtn
         this.pauseBtn = pauseBtn
         
+        this.running = false
         if (callbacks) {
             this.onStart = callbacks.onStart
             this.onTick = callbacks.onTick
@@ -16,14 +17,17 @@ class Timer {
         this.pauseBtn.addEventListener('click', this.pause)
     }
     start = () => {
+        if (this.running) return alert('Timer is already running')
         if (this.onStart) {
             this.onStart(this.timeRemaining)
         }
+        this.running = true
         this.tick()
         this.timerId = setInterval(this.tick, 50)
     }
     pause = () => {
         clearInterval(this.timerId)
+        this.running = false
     }
     tick = () => {
         if (this.timeRemaining <= 0) {
